@@ -41,7 +41,7 @@ def main():
         except Exception,e:
             is_ok = False
 
-    command = 'ssh -i ~/InplayAKey.pem ubuntu@%s' % hosts_list[select_index]
+    command = 'ssh -i ~/chat.pem ubuntu@%s' % hosts_list[select_index]
 #print command
     os.system(command)
 
