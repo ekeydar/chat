@@ -10,6 +10,8 @@ README
 Has to be invoked from fabfile
 '''
 
+import local_keys.py
+
 def sleep_and_tell(t):
     print 'Sleeping for %d seconds' % (t)
     time.sleep(t)
