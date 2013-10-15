@@ -28,10 +28,12 @@ app.controller('ChatController',['$scope','$window','$http','$timeout',function(
 		$scope.newMessage = null;
 	}
 	$scope.startWS = function() {
-		return;
 		console.log("starting web-service");
-		var host = 'ws://localhost:8000/api/chat-stream';
-	    var websocket = new WebSocket(host)
+		var loc = $window.location;
+		var host = loc.host;
+		var wsurl = 'ws://' + host + '/api/chat-stream';
+		console.log('wsurl = ' + wsurl);
+	    var websocket = new WebSocket(wsurl)
 	    websocket.onopen = function (evt) { 
 	    	console.log("websocket open")
 	    };
