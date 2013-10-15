@@ -11,14 +11,13 @@
 		<button ng-click="login()">Start!</button>
 	</div>
 	<div ng-show="isLoggedIn">
-		<h2>Hello {{username}}</h2>
+		<h2>Hello {{username}} <button ng-click="logout()">Logout</button></h2>
 		<div id="messages"></div>
 		<div id="newmessage">
 			<table>
 				<tr>
-					<td>Enter text:</td>
-					<td><input id="input-text" type="text"></td>
-					<td><button>Go</button></td>
+					<td><input id="input-text" ng-model="newMessage" placeholder="say your words" type="text"></td>
+					<td><button ng-click="say()">Say</button></td>
 				</tr>
 			</table>
 		</div>

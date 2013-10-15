@@ -1,5 +1,5 @@
 #messages {
-	position: fixed;
+	position: absolute;
 	top: 95px;
 	left: 100px;
 	height: 500px;
@@ -10,7 +10,7 @@
 }
 
 #newmessage {
-	position: fixed;
+	position: absolute;
 	top: 650px;
 	left: 100px;
 	width: 350px;
