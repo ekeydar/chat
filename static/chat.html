@@ -1,0 +1,31 @@
+<html ng-app="chat">
+<meta charset="utf-8">
+<head>
+<title>Chat</title>
+<link href='styles/style.css' rel='stylesheet' type='text/css' />
+</head>
+<body ng-controller="ChatController">
+	<div ng-hide="isLoggedIn">
+		<h2>Please Login</h2>
+		<input type="text" ng-model="username" placeholder="enter username" required>
+		<button ng-click="login()">Start!</button>
+	</div>
+	<div ng-show="isLoggedIn">
+		<h2>Hello {{username}}</h2>
+		<div id="messages"></div>
+		<div id="newmessage">
+			<table>
+				<tr>
+					<td>Enter text:</td>
+					<td><input id="input-text" type="text"></td>
+					<td><button>Go</button></td>
+				</tr>
+			</table>
+		</div>
+	</div>
+	<script
+		src="http://ajax.googleapis.com/ajax/libs/angularjs/1.0.7/angular.min.js"
+	></script>
+	<script src="js/code.js"></script>
+</body>
+</html>
