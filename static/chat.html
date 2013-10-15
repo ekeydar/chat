@@ -11,12 +11,19 @@
 		<button ng-click="login()">Start!</button>
 	</div>
 	<div ng-show="isLoggedIn">
-		<h2>Hello {{username}} <button ng-click="logout()">Logout</button></h2>
-		<div id="messages"></div>
+		<h2>
+			Hello {{username}}
+			<button ng-click="logout()">Logout</button>
+		</h2>
+		<div id="messages">
+			<p ng-repeat="msg in messages">{{msg.username}}: {{msg.message}}</p>
+		</div>
 		<div id="newmessage">
 			<table>
 				<tr>
-					<td><input id="input-text" ng-model="newMessage" placeholder="say your words" type="text"></td>
+					<td><input id="input-text" ng-model="newMessage"
+						placeholder="say your words" type="text"
+					></td>
 					<td><button ng-click="say()">Say</button></td>
 				</tr>
 			</table>
@@ -24,7 +31,6 @@
 	</div>
 	<script
 		src="http://ajax.googleapis.com/ajax/libs/angularjs/1.0.7/angular.min.js"
-	></script>
-	<script src="js/code.js"></script>
+	></script><script src="js/code.js"></script>
 </body>
 </html>

@@ -1,10 +1,11 @@
 var app = angular.module('chat',[]);
 
-app.controller('ChatController',['$scope','$window','$http',function($scope,$window,$http) {
+app.controller('ChatController',['$scope','$window','$http','$timeout',function($scope,$window,$http,$timeout) {
 	$scope.username = $window.sessionStorage.getItem('username');
 	console.log('username = ' + $scope.username);
 	$scope.isLoggedIn = $scope.username && $scope.username.length > 0;
 	$scope.newMessage = null;
+	$scope.messages = [];
 	$scope.login = function() {
 		$window.sessionStorage.setItem('username',$scope.username);
 		$scope.isLoggedIn = true;
@@ -26,5 +27,27 @@ app.controller('ChatController',['$scope','$window','$http',function($scope,$win
 		});
 		$scope.newMessage = null;
 	}
+	$scope.startWS = function() {
+		console.log("starting web-service");
+		var host = 'ws://localhost:8000/api/chat-stream';
+	    var websocket = new WebSocket(host)
+	    websocket.onopen = function (evt) { 
+	    	console.log("websocket open")
+	    };
+	    websocket.onmessage = function(evt) {
+	        console.log("websocket message");
+	        console.log(JSON.parse(evt.data));
+	        var msg = JSON.parse(evt.data);
+	        $scope.$apply(function() {
+	        	$scope.messages.push(msg);
+	        });
+	        
+	    };
+	    websocket.onerror = function (evt) { 
+	    	console.log("websocket close");
+	    };
+	}
+	
+	$timeout($scope.startWS,100);
 }]);
 

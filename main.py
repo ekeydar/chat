@@ -2,6 +2,7 @@ import json
 
 import tornado.web
 import tornado.httpserver
+import tornado.websocket
 import tornado.ioloop
 import tornado.options
 from tornado.options import options,define
@@ -24,12 +25,40 @@ class AddMessageHandler(ChatHandler):
         username = self.get_json_val('username')
         message = self.get_json_val('message')
         print('%s: %s' % (username,message))
+        self.application.chatManager.propagate(username,message)
         self.set_status(201)
+        
+class ChatStreamHandler(tornado.websocket.WebSocketHandler):
+    def open(self):
+        print 'ChatStreamHandler open'
+        self.application.chatManager.handlers.append(self)
+
+    def on_close(self):
+        print 'ChatStreamHandler close'
+        self.application.chatManager.remove(self)
+
+    def on_message(self, message):
+        pass
+
+    def propagate_message(self,username,message):
+        self.write_message(dict(username=username,message=message))
+    
+class ChatManager(object):
+    def __init__(self):
+        self.handlers = []
+    def add(self,handler):
+        self.handlers.add(handler)
+    def remove(self,handler):
+        self.handlers.remove(handler)
+    def propagate(self,username,message):
+        for h in self.handlers:
+            h.propagate_message(username,message)
     
 class ChatApplication(tornado.web.Application):
     def __init__(self):
         handlers = [
             (r'/api/addMessage', AddMessageHandler),
+            (r'/api/chat-stream',ChatStreamHandler),
             #(r'/cart', CartHandler),
             #(r'/cart/status', StatusHandler)
         ]
@@ -40,6 +69,8 @@ class ChatApplication(tornado.web.Application):
         }
         
         settings.update(**options.group_dict("application"))
+        
+        self.chatManager = ChatManager()
 
         tornado.web.Application.__init__(self, handlers, **settings)
     
