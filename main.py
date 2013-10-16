@@ -57,6 +57,7 @@ class ChatManager(object):
 class ChatApplication(tornado.web.Application):
     def __init__(self):
         handlers = [
+            (r'/', tornado.web.RedirectHandler,{'url' : '/static/chat.html'}),
             (r'/api/addMessage', AddMessageHandler),
             (r'/api/chat-stream',ChatStreamHandler),
             #(r'/cart', CartHandler),
