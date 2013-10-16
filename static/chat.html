@@ -16,7 +16,7 @@
 			<button ng-click="logout()">Logout</button>
 		</h2>
 		<div id="messages">
-			<p ng-repeat="msg in messages">{{formatMessage(msg)}}</p>
+			<p ng-repeat="msg in messages" ng-class="msg.kind">{{formatMessage(msg)}}</p>
 		</div>
 		<div id="newmessage">
 			<table>

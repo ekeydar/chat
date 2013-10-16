@@ -16,6 +16,7 @@ app.controller('ChatController',['$scope','$window','$http','$timeout',function(
 		$window.sessionStorage.setItem('username',$scope.username);
 		$scope.isLoggedIn = true;
 		$timeout($scope.startWS,100);
+		$scope.messages = [];
 	}
 	$scope.logout = function() {
 		$window.sessionStorage.removeItem('username');
