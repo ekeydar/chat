@@ -41,7 +41,10 @@ class ChatStreamHandler(tornado.websocket.WebSocketHandler):
         pass
 
     def propagate_message(self,username,message):
-        self.write_message(dict(username=username,message=message))
+        self.write_message(dict(username=username,kind='message',message=message))
+    def propagate_login(self,username,is_login):
+        kind = 'login' if is_login else 'logout'
+        self.write_message(dict(username=username,kind=kind))
     
 class ChatManager(object):
     def __init__(self):
@@ -53,6 +56,10 @@ class ChatManager(object):
     def propagate(self,username,message):
         for h in self.handlers:
             h.propagate_message(username,message)
+
+    def propagate_login(self,username,is_login):
+        for h in self.handlers:
+            h.propagate_login(username,is_login)
     
 class ChatApplication(tornado.web.Application):
     def __init__(self):

@@ -42,7 +42,7 @@ app.controller('ChatController',['$scope','$window','$http','$timeout',function(
 	        console.log(JSON.parse(evt.data));
 	        var msg = JSON.parse(evt.data);
 	        $scope.$apply(function() {
-	        	$scope.messages.push(msg);
+	            $scope.messages.push(msg);
 	        });
 	        
 	    };
