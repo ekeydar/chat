@@ -31,11 +31,14 @@ class AddMessageHandler(ChatHandler):
 class ChatStreamHandler(tornado.websocket.WebSocketHandler):
     def open(self):
         print 'ChatStreamHandler open'
+        self.username = self.get_argument('username')
+        self.application.chatManager.propagate_login(self.username,True)
         self.application.chatManager.handlers.append(self)
-
+        
     def on_close(self):
         print 'ChatStreamHandler close'
         self.application.chatManager.remove(self)
+        self.application.chatManager.propagate_login(self.username,False)
 
     def on_message(self, message):
         pass
